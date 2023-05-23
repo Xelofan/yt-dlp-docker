@@ -1,6 +1,6 @@
 FROM alpine
 
-RUN apk add ffmpeg yt-dlp --no-cache
+RUN apk add ffmpeg youtube-dl --no-cache
 
 ENV UID=1000 \
     GID=1000 \
