@@ -1,35 +1,16 @@
-FROM alpine
+FROM homebrew/brew
 
-RUN apk add ffmpeg yt-dlp --no-cache
-
-ENV UID=1000 \
-    GID=1000 \
-    USER=docker
-    
-
-RUN addgroup \
-    --g $GID \
-    $USER
-
-RUN adduser \
-    --disabled-password \
-    --gecos "" \
-#    --no-create-home \
-    --ingroup $USER \
-    --uid $UID \
-    $USER
+RUN brew install yt-dlp ffmpeg
+RUN brew cleanup -s --prune all
 
 ENV WAIT=300 \
     URL= \
     OUTPUT="%(title)s.%(ext)s"
 
-COPY script.sh /
-RUN chmod +x /script.sh
+COPY --chown=linuxbrew:linuxbrew script.sh /home/linuxbrew/
+RUN chmod +x /home/linuxbrew/script.sh
 
-WORKDIR /data
-VOLUME [ "/data" ]
-#RUN chown $USER:$USER /data
+WORKDIR /home/linuxbrew/app
+VOLUME [ "/home/linuxbrew/app" ]
 
-CMD [ "/script.sh" ]
-
-#USER $USER
+CMD [ "bash", "/home/linuxbrew/script.sh" ]

@@ -1,12 +1,12 @@
 name: Build and push Docker image
 
 on:
-  schedule:
-    - cron: '0 0 */7 * *'
+  # schedule:
+  #   - cron: '0 0 */7 * *'
   push:
     branches: [ "*" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master", "brew" ]
 
 env:
   REGISTRY: ghcr.io
@@ -61,6 +61,6 @@ jobs:
         builder: ${{ steps.buildx.outputs.name }}
         context: .
         file: ./Dockerfile
-        platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8
+        platforms: linux/amd64
         push: true
         tags: ${{ steps.ver.outputs.tags }}
