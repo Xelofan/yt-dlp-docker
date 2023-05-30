@@ -10,7 +10,8 @@ ENV WAIT=300 \
 COPY --chown=linuxbrew:linuxbrew script.sh /home/linuxbrew/
 RUN chmod +x /home/linuxbrew/script.sh
 
-WORKDIR /home/linuxbrew/app
-VOLUME [ "/home/linuxbrew/app" ]
+WORKDIR /data
+RUN chown linuxbrew:linuxbrew /data
+VOLUME [ "/data" ]
 
 CMD [ "bash", "/home/linuxbrew/script.sh" ]
