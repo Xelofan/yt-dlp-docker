@@ -1,6 +1,6 @@
 #!/bin/sh
 
-chown $UID:$GID /data
+# chown $UID:$GID /data
 COMMAND="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4' -o /data/'$OUTPUT' '$URL'"
 
 while true; do

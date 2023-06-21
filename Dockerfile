@@ -4,7 +4,7 @@ RUN apk add ffmpeg yt-dlp --no-cache
 
 ENV UID=1000 \
     GID=1000 \
-    USER=docker
+    USER=ytdlpdocker
     
 
 RUN addgroup \
@@ -32,4 +32,4 @@ VOLUME [ "/data" ]
 
 CMD [ "/script.sh" ]
 
-#USER $USER
+USER $USER
