@@ -5,7 +5,7 @@ RUN apk add ffmpeg yt-dlp --no-cache
 ENV UID=1000 \
     GID=1000 \
     USER=ytdlpdocker
-    
+
 
 RUN addgroup \
     --g $GID \
@@ -28,8 +28,8 @@ RUN chmod +x /script.sh
 
 WORKDIR /data
 VOLUME [ "/data" ]
-#RUN chown $USER:$USER /data
-
-CMD [ "/script.sh" ]
+RUN chown $USER:$USER /data
 
 USER $USER
+
+CMD [ "/script.sh" ]
