@@ -1,6 +1,6 @@
 ## YT-DLP in Docker
 
-### Why does it exist ?
+### Why does this exist ?
 I needed a simple Docker image to automatically download a stream that I specify when it's live, and check for it when it's not.
 ### Using the image (Docker cli, example)
 ```bash
