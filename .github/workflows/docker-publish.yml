@@ -21,9 +21,8 @@ jobs:
       with:
         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
         tags: |
-          type=ref,event=branch
-          type=semver,pattern={{version}}
-          type=semver,pattern={{major}}.{{minor}}
+          # set latest tag for default branch
+          type=raw,value=latest,enable={{is_default_branch}}
         flavor: |
           latest=auto
 
