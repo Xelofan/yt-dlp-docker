@@ -1,6 +1,4 @@
-FROM alpine
-
-RUN apk add ffmpeg yt-dlp --no-cache
+FROM ghcr.io/jauderho/yt-dlp:2024.08.01
 
 ENV UID=1000 \
     GID=1000 \
