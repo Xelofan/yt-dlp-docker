@@ -23,6 +23,12 @@ jobs:
         tags: |
           # set latest tag for default branch
           type=raw,value=latest,enable={{is_default_branch}}
+          # branch event
+          type=ref,enable=true,priority=600,prefix=,suffix=,event=branch
+          # tag event
+          type=ref,enable=true,priority=600,prefix=,suffix=,event=tag
+          # pull request event
+          type=ref,enable=true,priority=600,prefix=pr-,suffix=,event=pr
         flavor: |
           latest=auto
 
