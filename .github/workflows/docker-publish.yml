@@ -1,8 +1,6 @@
 name: Build and push Docker image
 
 on:
-  schedule:
-    - cron: '0 0 */7 * *'
   push:
     branches: [ "*" ]
   pull_request:
@@ -11,38 +9,31 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  PLATFORMS: linux/amd64,linux/arm64
 
 jobs:
-  
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Change repository name to lowercase
-      env:
-        repo: "${{ github.repository }}"
-      run: |
-        echo "REPOSITORY=${repo,,}" >> ${GITHUB_ENV}
-        
-    - name: Versioning
-      id: ver
-      run: |
-        VERSION=latest
-        
-        if [[ ${{ github.ref_name }} != "master" ]]; then
-          VERSION=${{ github.ref_name }}
-        fi
-        TAGS="${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${VERSION}"
-        
-        echo ::set-output name=tags::${TAGS}
-        echo ::set-output name=docker_image::${{ env.REPOSITORY }}
-        
+    - name: Extract metadata for Docker
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        tags: |
+          type=ref,event=branch
+          type=semver,pattern={{version}}
+          type=semver,pattern={{major}}.{{minor}}
+        flavor: |
+          latest=auto
+
     - name: Checkout
       uses: actions/checkout@v3
       
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
       with:
-        platforms: all
+        platforms: ${{ env.PLATFORMS }}
         
     - name: Set up Docker Buildx
       id: buildx
@@ -61,6 +52,7 @@ jobs:
         builder: ${{ steps.buildx.outputs.name }}
         context: .
         file: ./Dockerfile
-        platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8
+        platforms: ${{ env.PLATFORMS }}
         push: true
-        tags: ${{ steps.ver.outputs.tags }}
+        tags: ${{ steps.meta.outputs.tags }}
+
