@@ -4,7 +4,6 @@ ENV UID=1000 \
     GID=1000 \
     USER=ytdlpdocker
 
-
 RUN addgroup \
     --g $GID \
     $USER
@@ -30,4 +29,5 @@ RUN chown $USER:$USER /data
 
 USER $USER
 
-CMD [ "/script.sh" ]
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+CMD [ "/bin/sh", "/script.sh" ]
