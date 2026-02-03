@@ -1,4 +1,4 @@
-FROM ghcr.io/jauderho/yt-dlp:2026.01.29
+FROM ghcr.io/jauderho/yt-dlp:2026.01.31
 
 ENV UID=1000 \
     GID=1000 \
